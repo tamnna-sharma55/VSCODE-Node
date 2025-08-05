@@ -1,9 +1,0 @@
-npm init -y
-code .
-
-node
-console.log("hello world")
-*arithmetic expressions*
-2+3
-5*5
-.exit
