@@ -1,7 +1,7 @@
-const fs = require("fs")
-const http = require("http")
-const os = require("os")
-const {Transform} = require("stream")
+// const fs = require("fs")
+// const http = require("http")
+// const os = require("os")
+// const {Transform} = require("stream")
 
 // fs.writeFileSync("example.txt","hello world")
 // console.log("file is created successfully")
@@ -38,20 +38,20 @@ const {Transform} = require("stream")
 // console.log(os.hostname())
 // console.log(os.userInfo())
 
-const read = fs.createReadStream("input.txt","utf-8")
-read.on('data',(chunk)=>{
-console.log("chunk of data is fetch",chunk)
-})
+// const read = fs.createReadStream("input.txt","utf-8")
+// read.on('data',(chunk)=>{
+// console.log("chunk of data is fetch",chunk)
+// })
 
-read.on('end',()=>{
-    console.log("all data is get here")
-})
-read.on('error',(err)=>{
-    console.log("error is occured",err)
-}
-)
+// read.on('end',()=>{
+//     console.log("all data is get here")
+// })
+// read.on('error',(err)=>{
+//     console.log("error is occured",err)
+// }
+// )
 
-const write = fs.createWriteStream("output.txt")
+// const write = fs.createWriteStream("output.txt")
 // read.pipe(write)
 
 // write.on('finish',()=>{
@@ -62,17 +62,29 @@ const write = fs.createWriteStream("output.txt")
 // }
 // )  
 
-const upperCaseStream = new Transform({
-    transform(chunk,encoding,callback){
-        const upperCase = chunk.toString().toUpperCase();
-        callback(null,upperCase)
-    }
-})
-read.pipe(upperCaseStream).pipe(write)
+// const upperCaseStream = new Transform({
+//     transform(chunk,encoding,callback){
+//         const upperCase = chunk.toString().toUpperCase();
+//         callback(null,upperCase)
+//     }
+// })
+// read.pipe(upperCaseStream).pipe(write)
 
-write.on('finish',()=>{
-    console.log("tranformation completed")
+// write.on('finish',()=>{
+//     console.log("tranformation completed")
+// })
+// write.on('error',()=>{
+//     console.log("show error",err)
+// })
+
+const express = require("express")
+const app = express()
+require("dotenv").config()
+const port = 5000
+
+app.get("/",(req,res)=>{
+    res.send("this is home route")
 })
-write.on('error',()=>{
-    console.log("show error",err)
+app.listen(port,()=>{
+    console.log(`server is running at port number http://localhost:${port}`)
 })
