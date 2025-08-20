@@ -80,7 +80,14 @@
 const express = require("express")
 const app = express()
 require("dotenv").config()
-const port = 5000
+const db = require("./server/config/db")
+const route = require("./server/routes/route")
+app.use(express.json())
+app.use(express.urlencoded({extended:true}))
+app.use("/api",route)
+db()
+const port = process.env.PORT
+
 
 app.get("/",(req,res)=>{
     res.send("this is home route")
