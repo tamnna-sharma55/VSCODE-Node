@@ -1,6 +1,7 @@
 const User = require("./userModel")
 const bcrypt = require("bcryptjs")
-
+const jwt = require("jsonwebtoken")
+require("dotenv").config()
 
 
 const createUser = async(req, res) => {
@@ -60,4 +61,49 @@ const createUser = async(req, res) => {
 
     }
 }
-module.exports = { createUser }
+
+const loginUser = async (req,res) =>{
+    try{
+        const {email,password} = req.body
+        const user = await User.findOne({email})
+        if (!user){
+            return res.json({
+                status:404,
+                success:g=false,
+                message:"it is not a valid user"
+            })
+        }
+
+        const matchPassword = await bcrypt.compare(password,user.password)
+        if(!matchPassword){
+            return res.json({
+                status:404,
+                success:false,
+                message:"password is not valid"
+
+            })
+        }
+
+        const token = jwt.sign(
+            {userId:user._id,userEmail:user.email},
+            process.env.SECRET_KEY,
+            {expiresIn:"1d"}
+        )
+        res.json({
+            status:200,
+            success:true,
+            message:"user is login succesfully",
+            token
+        })
+    }
+    catch(err){
+        res.json({
+            status:500,
+            success:false,
+            message:"user is not login",
+            error:err.message
+        })
+
+    }
+}
+module.exports = { createUser , loginUser }
