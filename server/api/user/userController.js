@@ -55,7 +55,7 @@ const createUser = async(req, res) => {
         res.json({
             status: 500,
             success: false,
-            message: "interval server error",
+            message: "internal server error",
             error: err.message
         })
 
@@ -64,8 +64,8 @@ const createUser = async(req, res) => {
 
 const loginUser = async (req,res) =>{
     try{
-        const {email,password} = req.body
-        const user = await User.findOne({email})
+        const {name,email,password} = req.body
+        const user = await User.findOne({name, email})
         if (!user){
             return res.json({
                 status:404,
@@ -85,7 +85,7 @@ const loginUser = async (req,res) =>{
         }
 
         const token = jwt.sign(
-            {userId:user._id,userEmail:user.email},
+            {userId:user._id,userName:user.name, userEmail:user.email},
             process.env.SECRET_KEY,
             {expiresIn:"1d"}
         )

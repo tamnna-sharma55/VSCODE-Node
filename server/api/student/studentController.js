@@ -33,10 +33,10 @@ const createStudent = async (req, res) => {
       });
     }
 
-    // Hash password
+    
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create new student
+    
     const student = new Student({
       name,
       email,
