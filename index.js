@@ -88,8 +88,8 @@ app.use(express.urlencoded({extended:true}))
 
 
 app.use("/api",route)
-createAdmin()
 db()
+createAdmin()
 
 const port = process.env.PORT
 
