@@ -10,6 +10,16 @@ const userSchema = new mongoose.Schema({
         unique:true,
         required:true
     },
+    image:{
+        type:String,
+        
+    },
+    pancard:{
+        type:String
+    },
+    addharcard:{
+        type:String
+    },
     password:{
         type:String,
         required:true,
