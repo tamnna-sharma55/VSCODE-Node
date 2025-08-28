@@ -2,7 +2,11 @@ const mongoose = require("mongoose")
 require("dotenv").config()
 const createDB = async() =>{
     try{
-        await mongoose.connect(process.env.MONGO_URL)
+        await mongoose.connect(process.env.MONGO_URL,{
+            useNewUrlParser:true,
+            useUnifiedTopology:true,
+            serverSelectionTimeoutMS:2000
+        })
         console.log("database is connected successfully")
     }
     catch(err){

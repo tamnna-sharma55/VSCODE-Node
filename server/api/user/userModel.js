@@ -1,3 +1,4 @@
+const { truncates } = require("bcryptjs")
 const mongoose = require("mongoose")
 const userSchema = new mongoose.Schema({
     name:{
@@ -38,6 +39,14 @@ const userSchema = new mongoose.Schema({
     createdAt:{
         type:Date,
         default:Date.now()
+    },
+    otp:{
+        type:String,
+        default:""
+    },
+    otpExpire:{
+        type:Date,
+        default:""
     }
 })
 

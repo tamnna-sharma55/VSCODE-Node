@@ -94,9 +94,9 @@ createAdmin()
 const port = process.env.PORT
 
 
-app.get("/",(req,res)=>{
-    res.send("this is home route")
-})
+// app.get("/",(req,res)=>{
+//     res.send("this is home route")
+// })
 app.listen(port,()=>{
     console.log(`server is running at port number http://localhost:${port}`)
 })
