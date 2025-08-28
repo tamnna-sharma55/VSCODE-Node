@@ -313,7 +313,7 @@ const sendOtp = async(req,res) => {
     }
 
     const otp = Math.floor(100000+Math.random()*900000).toString()
-    const expire = Date.now()+5*60*60  //otp five minutes
+    const expire = Date.now()+5*60*1000  //otp five minutes
     user.otp = otp
     user.otpExpire = expire
 
@@ -342,35 +342,35 @@ const sendOtp = async(req,res) => {
   }
 }
 
-const verifyOtp = async(req,res) => {
-  try{
-    const {email,otp,newpassword} = req.body
-    const user = await User.findOne({email})
-    if(!user || user.otp !==otp || Date.now()> user.otpExpire){
-      return res.json({
-        status:400,
-        success:false,
-        message:"invalid user or invalid otp or expire otp"
-      })
+const verifyOtp = async(req, res) => {
+    try {
+        const { email, otp, newpassword } = req.body
+        const user = await User.findOne({ email })
+        if (!user || user.otp.toString() !== otp.toString()) {
+            return res.json({
+                status: 400,
+                success: false,
+                message: "invalid user or invalid otp or expire otp"
+            })
+        }
+
+        user.password = await bcrypt.hash(newpassword, 10)
+        user.otp = null
+        user.otpExpire = null
+        await user.save()
+        res.json({
+            success: true,
+            message: "password reset successfully"
+        })
+    } catch (err) {
+        res.json({
+
+            status: 500,
+            success: false,
+            message: "password is not reset",
+
+        })
     }
-    user.password = await bcrypt.hash(newpassword,10)
-    user.otp = null
-    user.otpExpire = null
-    await user.save()
-    res.json({
-      success:true,
-      message:"password is successfully reset"
-    })
-
-  }
-  catch(err){
-    res.json({
-      status:500,
-      success:false,
-      message:"internal server error",
-      error:err.message
-    })
-
-  }
 }
+
 module.exports = { createUser , loginUser, getAllUser ,getUserById, updateUserById,deleteUserById,sendOtp,verifyOtp}
