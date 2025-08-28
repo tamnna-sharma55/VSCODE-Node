@@ -7,9 +7,9 @@ require("dotenv").config()
 const createUser = async (req, res) => {
   try {
     const { name, email, address, contact, password } = req.body
-    const image = req.file?.filename
-    const pancard = req.file?.filename
-    const aadharcard = req.file?.filename
+    const image = req.file?.image?.[0]?.filename
+    const pancard = req.file?.pancard?.[0]?.filename
+    const aadharcard = req.file?.addharcard?.[0]?.filename
 
     const validation = []
     if (!name || typeof name !== "string") validation.push("name is required and must be string")
